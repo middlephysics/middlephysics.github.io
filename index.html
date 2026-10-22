@@ -182,15 +182,20 @@ label.dot input{position:absolute;inset:-6px;width:22px;height:22px;opacity:0;cu
 #bl{position:absolute;left:0;top:0;width:1px;height:1px;overflow:visible;color:var(--mu)}#bl line{stroke:currentColor;stroke-width:1.6}
 .cd{position:absolute;display:flex;flex-direction:column;background:var(--pn);border:1px solid var(--bd);border-radius:12px;box-shadow:0 1px 2px rgba(0,0,0,.06),0 8px 22px rgba(0,0,0,.08)}
 .cd.sel2{outline:2px solid var(--ac)}
-.hd{display:flex;align-items:center;gap:4px;padding:4px 6px 2px 12px;font-size:10px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--mu);cursor:grab}
+.hd{display:flex;align-items:center;gap:4px;padding:4px 6px 2px 12px;font-size:10px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--mu);cursor:grab;user-select:none;-webkit-user-select:none}
 .cd.tint .hd{color:rgba(0,0,0,.45)}
-.hd span{flex:1}
+.hd>span{flex:1}
 .cb{height:22px;width:22px;padding:0;justify-content:center;border:0;background:none;color:inherit;border-radius:6px}
 .cb:hover{background:rgba(127,127,127,.15)}
-.sw{width:10px;height:10px;border-radius:50%;border:1.5px solid currentColor}
+.sw{display:block}
 .ct,.nt{flex:1;min-height:0;overflow:auto;padding:2px 12px 10px;outline:none;white-space:pre-wrap;word-break:break-word}
 .nt{font-weight:600;cursor:pointer;color:var(--ac)}
 .rs{position:absolute;right:0;bottom:0;width:16px;height:16px;cursor:nwse-resize}
+.cd.pk{outline:2px solid var(--ac);outline-offset:2px}
+#bmq{position:absolute;z-index:2;border:1px solid var(--ac);background:var(--acs);border-radius:3px;pointer-events:none}
+#bsl{position:absolute;z-index:3;left:50%;bottom:16px;transform:translateX(-50%);display:flex;align-items:center;gap:6px;padding:6px 6px 6px 14px;font-size:12px;color:var(--mu);background:var(--pn);border:1px solid var(--bd);border-radius:12px;box-shadow:var(--sh);cursor:default;white-space:nowrap;user-select:none;-webkit-user-select:none;max-width:calc(100% - 32px)}#bsc{display:flex;gap:4px}#bsl b{font-weight:500;color:var(--tx);margin-right:2px}
+.bsw{width:22px;height:22px;padding:0;border-radius:50%;border:1px solid var(--bd)}.bsw:hover{border-color:var(--ac)}
+#bm.on{background:var(--acs);color:var(--ac);border-color:var(--ac)}
 
 @media(max-width:760px){
 #mb{display:inline-flex}
@@ -258,7 +263,7 @@ label.dot input{position:absolute;inset:-6px;width:22px;height:22px;opacity:0;cu
 <div id="ed" contenteditable="true"></div>
 <div id="lk"></div>
 </div></section>
-<section id="bv" hidden><div id="bt2"><label class="sel"><select id="bsel" aria-label="Class board"></select></label><button id="ba"><i data-i="plus"></i>Card</button><label class="sel"><select id="bn" aria-label="Add a note card"></select></label><button id="bk">Connect</button><span class="sp"></span><button id="bzo" class="icon" aria-label="Zoom out"><i data-i="minus"></i></button><button id="bzi" class="icon" aria-label="Zoom in"><i data-i="plus"></i></button></div><div id="bs"><div id="bw"><svg id="bl"></svg><div id="bc"></div></div></div></section>
+<section id="bv" hidden><div id="bt2"><label class="sel"><select id="bsel" aria-label="Class board"></select></label><button id="ba"><i data-i="plus"></i>Card</button><label class="sel"><select id="bn" aria-label="Add a note card"></select></label><button id="bk">Connect</button><button id="bm" title="Tap or drag to select several cards (or hold Shift)">Select</button><span class="sp"></span><button id="bzo" class="icon" aria-label="Zoom out"><i data-i="minus"></i></button><button id="bzi" class="icon" aria-label="Zoom in"><i data-i="plus"></i></button></div><div id="bs"><div id="bmq" hidden></div><span id="bsl" hidden><b id="bsn"></b><span id="bsc"></span><button id="bsd" class="ghost">Remove</button><button id="bsx" class="ghost">Clear</button></span><div id="bw"><svg id="bl"></svg><div id="bc"></div></div></div></section>
 <section id="gv" hidden><svg id="sv"></svg><div id="gb" hidden></div><div id="gf"><button id="zo" class="icon" aria-label="Zoom out"><i data-i="minus"></i></button><button id="zi" class="icon" aria-label="Zoom in"><i data-i="plus"></i></button><div id="lg"></div></div></section>
 </main>
 </div>
@@ -539,7 +544,9 @@ document.addEventListener('pointerdown',e=>{if(!$('#xm').hidden&&!e.target.close
 
 /* ---------- Board ---------- */
 const CC=['','#fff1a8','#ffd6e0','#cfe8ff','#d3f5d0','#e4d9ff'];
-let BC=null,BS=null,BV={k:1,x:40,y:40},CONN=0,FIRST=null;
+let BC=null,BS=null,BV={k:1,x:40,y:40},CONN=0,FIRST=null,SEL=new Set(),SELM=0;
+const selUI=()=>{const n=SEL.size;$('#bsl').hidden=!n;$('#bsn').textContent=n+' selected';$('#bc').querySelectorAll('.cd').forEach(el=>el.classList.toggle('pk',SEL.has(el.dataset.id)))};
+const selCards=()=>bd().cards.filter(c=>SEL.has(c.id));
 const bd=()=>{S.boards=S.boards||{};if(!S.classes.some(c=>c.id==BC))BC=(cur()&&cur().cid)||S.classes[0].id;return S.boards[BC]||(S.boards[BC]={cards:[],links:[]})};
 const btf=()=>$('#bw').style.transform=`translate(${BV.x}px,${BV.y}px) scale(${BV.k})`;
 const edge=(a,b)=>{const ax=a.x+a.w/2,ay=a.y+a.h/2,dx=b.x+b.w/2-ax,dy=b.y+b.h/2-ay,t=Math.min(a.w/2/Math.abs(dx||1e-6),a.h/2/Math.abs(dy||1e-6));return[ax+dx*t,ay+dy*t]};
@@ -548,31 +555,42 @@ $('#bl').innerHTML='<defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" 
 function board(){const b=bd();
 $('#bsel').innerHTML=S.classes.map(c=>`<option value="${c.id}"${c.id==BC?' selected':''}>${esc(c.name)}</option>`).join('');
 $('#bn').innerHTML='<option value="">Add note card</option>'+S.notes.filter(n=>n.cid==BC).map(n=>`<option value="${n.id}">${esc(n.title||'Untitled')}</option>`).join('');
-$('#bc').innerHTML=b.cards.map(c=>`<div class="cd${c.id==FIRST?' sel2':''}${c.c?' tint':''}" data-id="${c.id}" style="left:${c.x}px;top:${c.y}px;width:${c.w}px;height:${c.h}px;${c.c?`background:${CC[c.c]};color:#1d1d1f;border-color:rgba(0,0,0,.06)`:''}"><div class="hd" data-m="drag"><span>${c.nid?'Note':'Card'}</span><button class="cb" data-m="col" title="Change color"><span class="sw"></span></button><button class="cb" data-m="del" title="Remove card">${ic('x',13)}</button></div>${c.nid?`<div class="nt" data-m="open">${esc((S.notes.find(n=>n.id==c.nid)||{}).title||'Deleted note')} ›</div>`:`<div class="ct" contenteditable="true" data-m="txt">${esc(c.t||'')}</div>`}<div class="rs" data-m="rs"></div></div>`).join('');
-$('#bs').toggleAttribute('data-e',!b.cards.length);blines();btf()}
+$('#bc').innerHTML=b.cards.map(c=>`<div class="cd${c.id==FIRST?' sel2':''}${c.c?' tint':''}" data-id="${c.id}" style="left:${c.x}px;top:${c.y}px;width:${c.w}px;height:${c.h}px;${c.c?`background:${CC[c.c]};color:#1d1d1f;border-color:rgba(0,0,0,.06)`:''}"><div class="hd" data-m="drag"><span>${c.nid?'Note':'Card'}</span><button class="cb" data-m="col" title="Change color"><svg class="sw" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a9 9 0 1 0 0 18c1.1 0 1.8-.8 1.8-1.7 0-.5-.2-.9-.5-1.2-.3-.3-.5-.7-.5-1.2 0-.9.8-1.7 1.7-1.7H16a5 5 0 0 0 5-5c0-4-4-7.2-9-7.2z"/><circle cx="7.5" cy="11" r="1" fill="currentColor"/><circle cx="10.5" cy="7.5" r="1" fill="currentColor"/><circle cx="15" cy="7.5" r="1" fill="currentColor"/></svg></button><button class="cb" data-m="del" title="Remove card">${ic('x',13)}</button></div>${c.nid?`<div class="nt" data-m="open">${esc((S.notes.find(n=>n.id==c.nid)||{}).title||'Deleted note')} ›</div>`:`<div class="ct" contenteditable="true" data-m="txt">${esc(c.t||'')}</div>`}<div class="rs" data-m="rs"></div></div>`).join('');
+$('#bs').toggleAttribute('data-e',!b.cards.length);SEL=new Set([...SEL].filter(id=>b.cards.some(c=>c.id==id)));selUI();blines();btf()}
 const ctr=()=>{const r=$('#bs').getBoundingClientRect();return[(r.width/2-BV.x)/BV.k,(r.height/2-BV.y)/BV.k]};
 const addCard=(x,y,nid)=>{bd().cards.push({id:uid(),x,y,w:nid?200:210,h:nid?90:130,c:nid?0:1,t:'',nid});board();save()};
 const bzoom=(f,mx,my)=>{const r=$('#bs').getBoundingClientRect();mx=mx??r.width/2;my=my??r.height/2;const k=Math.max(.3,Math.min(2.5,BV.k*f));BV.x=mx-(mx-BV.x)*k/BV.k;BV.y=my-(my-BV.y)*k/BV.k;BV.k=k;btf()};
-$('#bs').onpointerdown=e=>{const m=e.target.closest('[data-m]'),cd=e.target.closest('.cd');BS=null;
-if(!cd){BS={t:'pan',x:e.clientX-BV.x,y:e.clientY-BV.y};$('#bs').setPointerCapture(e.pointerId);return}
+$('#bs').onpointerdown=e=>{if(e.target.closest('#bsl'))return;const m=e.target.closest('[data-m]'),cd=e.target.closest('.cd'),add=e.shiftKey||e.metaKey||e.ctrlKey||SELM;BS=null;
+if(!cd){if(add&&!CONN){e.preventDefault();getSelection().removeAllRanges();const r=$('#bs').getBoundingClientRect();BS={t:'box',x0:e.clientX-r.left,y0:e.clientY-r.top,base:new Set(SEL)}}else{if(SEL.size){SEL.clear();selUI()}BS={t:'pan',x:e.clientX-BV.x,y:e.clientY-BV.y}}$('#bs').setPointerCapture(e.pointerId);return}
 const b=bd(),c=b.cards.find(x=>x.id==cd.dataset.id),k=m&&m.dataset.m;
 if(CONN){e.preventDefault();if(!FIRST){FIRST=c.id;cd.classList.add('sel2')}else{if(FIRST!=c.id){const i=b.links.findIndex(l=>l.includes(FIRST)&&l.includes(c.id));i<0?b.links.push([FIRST,c.id]):b.links.splice(i,1)}FIRST=null;board();save()}return}
 if(k=='del'){b.cards=b.cards.filter(x=>x!=c);b.links=b.links.filter(l=>!l.includes(c.id));board();save()}
-else if(k=='col'){c.c=(c.c+1)%CC.length;board();save()}
-else if(k=='open'){if(S.notes.some(n=>n.id==c.nid))open(c.nid)}
-else if(k=='drag'||k=='rs'){BS={t:k,c,sx:e.clientX,sy:e.clientY,cx:c.x,cy:c.y,cw:c.w,ch:c.h};$('#bs').setPointerCapture(e.pointerId)}};
+else if(k=='col'){const n=(c.c+1)%CC.length;(SEL.has(c.id)?selCards():[c]).forEach(x=>x.c=n);board();save()}
+else if(k=='open'&&!add){if(S.notes.some(n=>n.id==c.nid))open(c.nid)}
+else if(add&&k!='rs'){e.preventDefault();getSelection().removeAllRanges();SEL.has(c.id)?SEL.delete(c.id):SEL.add(c.id);selUI();if(SEL.has(c.id))bgrab(e,c,'drag')}
+else{if(!SEL.has(c.id)&&SEL.size){SEL.clear();selUI()}if(k=='drag'||k=='rs')bgrab(e,c,k)}};
+const bgrab=(e,c,t)=>{e.preventDefault();BS={t,sx:e.clientX,sy:e.clientY,g:(SEL.has(c.id)?selCards():[c]).map(x=>({c:x,x:x.x,y:x.y,w:x.w,h:x.h}))};$('#bs').setPointerCapture(e.pointerId)};
 $('#bs').onpointermove=e=>{if(!BS)return;if(BS.t=='pan'){BV.x=e.clientX-BS.x;BV.y=e.clientY-BS.y;btf();return}
-const dx=(e.clientX-BS.sx)/BV.k,dy=(e.clientY-BS.sy)/BV.k,c=BS.c;
-if(BS.t=='drag'){c.x=BS.cx+dx;c.y=BS.cy+dy}else{c.w=Math.max(120,BS.cw+dx);c.h=Math.max(70,BS.ch+dy)}
-const el=$('#bc').querySelector(`[data-id="${c.id}"]`);el.style.left=c.x+'px';el.style.top=c.y+'px';el.style.width=c.w+'px';el.style.height=c.h+'px';blines()};
-$('#bs').onpointerup=()=>{if(BS&&BS.t!='pan')save();BS=null};
+if(BS.t=='box'){const r=$('#bs').getBoundingClientRect(),x1=e.clientX-r.left,y1=e.clientY-r.top,l=Math.min(BS.x0,x1),t=Math.min(BS.y0,y1),w=Math.abs(x1-BS.x0),h=Math.abs(y1-BS.y0),q=$('#bmq');
+Object.assign(q.style,{left:l+'px',top:t+'px',width:w+'px',height:h+'px'});q.hidden=false;
+const L=(l-BV.x)/BV.k,T=(t-BV.y)/BV.k,R=L+w/BV.k,B=T+h/BV.k;SEL=new Set(BS.base);bd().cards.forEach(c=>{if(c.x<R&&c.x+c.w>L&&c.y<B&&c.y+c.h>T)SEL.add(c.id)});selUI();return}
+const dx=(e.clientX-BS.sx)/BV.k,dy=(e.clientY-BS.sy)/BV.k;
+BS.g.forEach(o=>{const c=o.c;if(BS.t=='drag'){c.x=o.x+dx;c.y=o.y+dy}else{c.w=Math.max(120,o.w+dx);c.h=Math.max(70,o.h+dy)}
+const el=$('#bc').querySelector(`[data-id="${c.id}"]`);el.style.left=c.x+'px';el.style.top=c.y+'px';el.style.width=c.w+'px';el.style.height=c.h+'px'});blines()};
+$('#bs').onpointerup=()=>{if(BS&&BS.t=='box')$('#bmq').hidden=true;else if(BS&&BS.t!='pan')save();BS=null};
 $('#bs').onwheel=e=>{e.preventDefault();const r=$('#bs').getBoundingClientRect();bzoom(e.deltaY<0?1.1:.9,e.clientX-r.left,e.clientY-r.top)};
 $('#bs').ondblclick=e=>{if(e.target.closest('.cd'))return;const r=$('#bs').getBoundingClientRect();addCard((e.clientX-r.left-BV.x)/BV.k-105,(e.clientY-r.top-BV.y)/BV.k-30)};
 $('#bc').oninput=e=>{const cd=e.target.closest('.cd');if(cd){bd().cards.find(x=>x.id==cd.dataset.id).t=e.target.innerText;save()}};
 $('#ba').onclick=()=>{const[x,y]=ctr();addCard(x-105+Math.random()*60,y-65+Math.random()*60)};
 $('#bn').onchange=e=>{if(e.target.value){const[x,y]=ctr();addCard(x-100,y-45,e.target.value)}};
 $('#bk').onclick=()=>{CONN=CONN?0:1;FIRST=null;$('#bk').textContent=CONN?'Done connecting':'Connect';$('#bk').classList.toggle('on',!!CONN);board()};
-$('#bsel').onchange=e=>{BC=e.target.value;FIRST=null;board()};
+$('#bsel').onchange=e=>{BC=e.target.value;FIRST=null;SEL.clear();board()};
+$('#bm').onclick=()=>{SELM=SELM?0:1;$('#bm').classList.toggle('on',!!SELM);$('#bm').textContent=SELM?'Done selecting':'Select'};
+$('#bsc').innerHTML=CC.map((c,i)=>`<button class="bsw" data-cc="${i}" title="Color selection" style="background:${c||'var(--pn)'}"></button>`).join('');
+$('#bsc').onclick=e=>{const t=e.target.closest('[data-cc]');if(t){selCards().forEach(c=>c.c=+t.dataset.cc);board();save()}};
+$('#bsx').onclick=()=>{SEL.clear();selUI()};
+$('#bsd').onclick=()=>{const b=bd();b.cards=b.cards.filter(c=>!SEL.has(c.id));b.links=b.links.filter(l=>!SEL.has(l[0])&&!SEL.has(l[1]));SEL.clear();board();save()};
+document.addEventListener('keydown',e=>{if(e.key=='Escape'&&SEL.size&&!$('#bv').hidden){SEL.clear();selUI()}});
 $('#bzi').onclick=()=>bzoom(1.25);$('#bzo').onclick=()=>bzoom(.8);
 
 /* ---------- Graph ---------- */
