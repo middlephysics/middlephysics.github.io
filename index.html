@@ -288,13 +288,13 @@ const ic=(n,s=16)=>`<svg class="i" width="${s}" height="${s}" viewBox="0 0 24 24
 document.querySelectorAll('i[data-i]').forEach(e=>e.outerHTML=ic(e.dataset.i));
 const P=['#2d55c8','#14b8a6','#f59e0b','#ec4899','#7c6cf0','#84cc16'];
 const uid=()=>Math.random().toString(36).slice(2,9);
-const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-const tx=h=>{const d=document.createElement('div');d.innerHTML=h;return d.textContent.replace(/ /g,' ')};
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));const H=h=>{const d=document.createElement('div');d.innerHTML=h;return d};const nb=s=>s.replace(/\u00a0/g,' ');
+const tx=h=>nb(H(h).textContent);
 const SEED={"cur":"ol33zvk","classes":[{"id":"epb2jn7","name":"Finance","color":"#b81414"},{"id":"szvnw8w","name":"Operations","color":"#0a83f5"},{"id":"oo7kmwg","name":"Leadership","color":"#ec7709"},{"id":"4917loi","name":"Marketing","color":"#1fd912"}],"notes":[{"id":"vy8ohp2","cid":"epb2jn7","fid":"evuyisb","title":"TVM","body":"Time value of money!!!"},{"id":"ol33zvk","cid":"epb2jn7","fid":"evuyisb","title":"Exponential Growth","body":"<h2><br></h2><div>Exponential growth is a major factor in [[TVM]]</div><div><br></div><div><br></div><div><br></div>"},{"id":"tuk7718","cid":"szvnw8w","fid":"rmj96kr","title":"Operational Efficiency","body":"This allows for the [[Exponential Growth]] of a corporations money"},{"id":"tyrfzf4","cid":"szvnw8w","fid":"rmj96kr","title":"Benefits","body":""}],"view":"n","folders":[{"id":"evuyisb","cid":"epb2jn7","pid":null,"name":"Week 10"},{"id":"rmj96kr","cid":"szvnw8w","pid":null,"name":"Week 10"},{"id":"lfd8kao","cid":"oo7kmwg","pid":null,"name":"Week 10"},{"id":"1zaavnl","cid":"4917loi","pid":null,"name":"Week 10"}],"col":{"43tdj7u":false,"epb2jn7":true,"evuyisb":false,"szvnw8w":true,"oo7kmwg":true,"4917loi":true,"rmj96kr":false},"boards":{"epb2jn7":{"cards":[{"id":"7lnydyn","x":341.64,"y":-62.98,"w":210,"h":130,"c":5,"t":"Fortnite"},{"id":"3j5a62s","x":491.76,"y":140.05,"w":210,"h":130,"c":1,"t":"Pleasant park"},{"id":"822drdp","x":189.93,"y":137.21,"w":210,"h":130,"c":1,"t":"Golden Scar"},{"id":"ows60s3","x":495.04,"y":298.82,"w":210,"h":130,"c":4,"t":"\n"},{"id":"a46p9bh","x":731.85,"y":409.02,"w":200,"h":90,"c":0,"t":"","nid":"vy8ohp2"},{"id":"vee6nko","x":1423.97,"y":-151.74,"w":254.88,"h":86.85,"c":1,"t":"Components of Finance"},{"id":"nrr859c","x":1177.26,"y":-6.39,"w":210,"h":130,"c":2,"t":"Money"},{"id":"f0xsr53","x":1435.94,"y":-9.21,"w":210,"h":130,"c":2,"t":"Efficiency"},{"id":"2jn5id8","x":1676.02,"y":-9.43,"w":210,"h":130,"c":2,"t":"Efficacy"},{"id":"e9ktog0","x":1057.89,"y":196.61,"w":200,"h":90,"c":0,"t":"","nid":"ol33zvk"}],"links":[["3j5a62s","7lnydyn"],["822drdp","7lnydyn"],["ows60s3","3j5a62s"],["a46p9bh","ows60s3"],["2jn5id8","vee6nko"],["f0xsr53","vee6nko"],["nrr859c","vee6nko"],["f0xsr53","nrr859c"],["e9ktog0","nrr859c"],["e9ktog0","vee6nko"]]},"szvnw8w":{"cards":[],"links":[]}}};
 let S;try{S=JSON.parse(localStorage.getItem(K))}catch(e){}
 if(!S||!S.notes||!S.notes.length)S=JSON.parse(JSON.stringify(SEED));
 function norm(){S.folders=S.folders||[];S.col=S.col||{};S.notes.forEach(n=>n.body=mig(n.body||''))}
-function mig(html){if(html.indexOf('[[')<0)return html;const d=document.createElement('div');d.innerHTML=html;const w=document.createTreeWalker(d,NodeFilter.SHOW_TEXT),ts=[];
+function mig(html){if(html.indexOf('[[')<0)return html;const d=H(html);const w=document.createTreeWalker(d,NodeFilter.SHOW_TEXT),ts=[];
 while(w.nextNode())if(/\[\[[^\[\]]+\]\]/.test(w.currentNode.textContent))ts.push(w.currentNode);
 ts.forEach(t=>{const f=document.createDocumentFragment(),s=t.textContent;let last=0;s.replace(/\[\[([^\[\]]+)\]\]/g,(m,x,i)=>{f.append(s.slice(last,i));const a=document.createElement('a');a.className='wl';a.setAttribute('contenteditable','false');a.dataset.t=x.trim();a.textContent=x.trim();f.append(a);last=i+m.length;return m});f.append(s.slice(last));t.replaceWith(f)});
 return d.innerHTML}
@@ -312,7 +312,7 @@ let PR=null;
 const cur=()=>S.notes.find(n=>n.id==S.cur);
 const byT=t=>{t=(t||'').trim().toLowerCase();return t&&S.notes.find(n=>n.title.trim().toLowerCase()==t)};
 const OC=new Map();
-const outs=n=>{const b=n.body||'';if(OC.has(b))return OC.get(b);const d=document.createElement('div');d.innerHTML=b;const r=[...new Set([...d.querySelectorAll('a.wl')].map(a=>(a.dataset.t||'').trim()).filter(Boolean))];if(OC.size>500)OC.clear();OC.set(b,r);return r};
+const outs=n=>{const b=n.body||'';if(OC.has(b))return OC.get(b);const d=H(b);const r=[...new Set([...d.querySelectorAll('a.wl')].map(a=>(a.dataset.t||'').trim()).filter(Boolean))];if(OC.size>500)OC.clear();OC.set(b,r);return r};
 const cls=id=>S.classes.find(c=>c.id==id)||{};
 const ccol=id=>cls(id).color||'#888',cname=id=>cls(id).name||'';
 const ago=t=>{const m=(Date.now()-t)/6e4;return m<1?'just now':m<60?Math.round(m)+' min ago':m<1440?Math.round(m/60)+' h ago':Math.round(m/1440)+' d ago'};
@@ -429,7 +429,7 @@ let oldT='';
 $('#ti').onfocus=()=>oldT=cur().title.trim();
 $('#ti').oninput=()=>{const n=cur();n.title=$('#ti').value;n.u=Date.now();side();later()};
 $('#ti').onblur=()=>{const nt=cur().title.trim(),o=oldT.toLowerCase();if(!o||!nt||o==nt.toLowerCase())return;
-S.notes.forEach(m=>{if(m.id==S.cur||m.body.indexOf('wl')<0)return;const d=document.createElement('div');d.innerHTML=m.body;let ch=0;
+S.notes.forEach(m=>{if(m.id==S.cur||m.body.indexOf('wl')<0)return;const d=H(m.body);let ch=0;
 d.querySelectorAll('a.wl').forEach(a=>{if((a.dataset.t||'').trim().toLowerCase()==o){a.dataset.t=nt;a.textContent=nt;ch=1}});if(ch)m.body=d.innerHTML});oldT=nt;save();lk()};
 $('#ti').onkeydown=e=>{if(e.key=='Enter'){e.preventDefault();$('#ed').focus()}};
 $('#ed').onpaste=e=>{e.preventDefault();document.execCommand('insertText',false,e.clipboardData.getData('text/plain'))};
@@ -477,20 +477,20 @@ z.addEventListener('pointermove',mv);z.addEventListener('pointerup',up)});
 const LIB={jspdf:['https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js',()=>window.jspdf],jszip:['https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js',()=>window.JSZip]};
 const need=k=>new Promise((ok,no)=>{if(LIB[k][1]())return ok();const s=document.createElement('script');s.src=LIB[k][0];s.onload=ok;s.onerror=()=>no(new Error('Couldn’t load the export tools. Check your connection.'));document.head.appendChild(s)});
 let _dlp;const DLP=()=>_dlp||(_dlp=window.claude&&window.claude.use?window.claude.use('downloads').catch(()=>null):Promise.resolve(null));
-function blocks(html){const d=document.createElement('div');d.innerHTML=html;const out=[];let buf='';
-const flush=()=>{const t=buf.replace(/ /g,' ').replace(/[ \t]+\n/g,'\n').replace(/\n{3,}/g,'\n\n').trim();if(t)out.push({k:'p',t});buf=''};
+function blocks(html){const d=H(html);const out=[];let buf='';
+const flush=()=>{const t=nb(buf).replace(/[ \t]+\n/g,'\n').replace(/\n{3,}/g,'\n\n').trim();if(t)out.push({k:'p',t});buf=''};
 const inl=n=>n.nodeType==3?n.textContent:n.nodeName=='BR'?'\n':n.nodeName=='INPUT'?'':[...n.childNodes].map(inl).join('');
 const BL=/^(P|DIV|H1|H2|H3|H4|H5|H6|UL|OL|BLOCKQUOTE|PRE|HR|LI)$/;
 const walk=el=>{for(const n of el.childNodes){
 if(n.nodeType==3||(n.nodeType==1&&!BL.test(n.nodeName))){buf+=inl(n);continue}
 if(n.nodeType!=1)continue;flush();const t=n.nodeName;
 if(/^H\d$/.test(t)){const s=inl(n).trim();if(s)out.push({k:t=='H1'?'h1':t=='H2'?'h2':'h3',t:s})}
-else if(t=='UL'||t=='OL')[...n.children].forEach((li,i)=>{const s=inl(li).replace(/ /g,' ').trim();if(s)out.push(t=='OL'?{k:'li',t:(i+1)+'. '+s}:{k:'li',t:s,bul:1})});
+else if(t=='UL'||t=='OL')[...n.children].forEach((li,i)=>{const s=nb(inl(li)).trim();if(s)out.push(t=='OL'?{k:'li',t:(i+1)+'. '+s}:{k:'li',t:s,bul:1})});
 else if(t=='BLOCKQUOTE'){const s=inl(n).trim();if(s)out.push({k:'q',t:s})}
 else if(t=='PRE'){if(n.textContent.trim())out.push({k:'code',t:n.textContent})}
 else if(t=='HR')out.push({k:'hr'});
 else if(n.classList.contains('pdf'))out.push({k:'p',t:'[Attached PDF: '+(n.dataset.name||'file')+']'});
-else if(n.classList.contains('td')){const c=n.querySelector('input');out.push({k:'li',t:(c&&c.hasAttribute('checked')?'[x] ':'[ ] ')+inl(n).replace(/ /g,' ').trim()})}
+else if(n.classList.contains('td')){const c=n.querySelector('input');out.push({k:'li',t:(c&&c.hasAttribute('checked')?'[x] ':'[ ] ')+nb(inl(n)).trim()})}
 else{walk(n);flush()}}};
 walk(d);flush();return out}
 function noteModel(n,top){const f=S.folders.find(x=>x.id==n.fid);return[{k:top?'title':'nt',t:n.title||'Untitled'},{k:'meta',t:cname(n.cid)+(f?' / '+f.name:'')},...blocks(n.body)]}
@@ -504,7 +504,7 @@ if(b.k=='gap'){y+=18;continue}
 if(b.k=='hr'){if(y+20>H-M){doc.addPage();y=M}y+=6;doc.setDrawColor(200);doc.line(M,y,W-M,y);y+=14;continue}
 const[sz,st,after]=ST[b.k];doc.setFont(b.k=='code'?'courier':'helvetica',st);doc.setFontSize(sz);
 doc.setTextColor(b.k=='meta'||b.k=='q'?115:20);
-const ind=b.k=='li'||b.k=='q'?16:0,lh=sz*1.45,lines=doc.splitTextToSize(b.t.replace(/ /g,' '),CW-ind);
+const ind=b.k=='li'||b.k=='q'?16:0,lh=sz*1.45,lines=doc.splitTextToSize(nb(b.t),CW-ind);
 if(/^(h|nt|cls)/.test(b.k)&&y>M)y+=sz*.5;
 lines.forEach((ln,i)=>{if(y+lh>H-M){doc.addPage();y=M}if(i==0&&b.bul){doc.setFillColor(40);doc.circle(M+ind-8,y+sz*.62,1.6,'F')}doc.text(ln,M+ind,y+sz);y+=lh});
 y+=after}
@@ -520,7 +520,7 @@ if(b.k=='break'){if(!first)body+='<w:p><w:r><w:br w:type="page"/></w:r></w:p>';c
 first=0;
 if(b.k=='gap'){body+='<w:p/>';continue}
 if(b.k=='hr'){body+='<w:p><w:pPr><w:pBdr><w:bottom w:val="single" w:sz="6" w:space="1" w:color="BBBBBB"/></w:pBdr></w:pPr></w:p>';continue}
-const o=ST[b.k];body+=`<w:p><w:pPr><w:spacing w:before="${o.bf}" w:after="${o.af}"/>${o.ind?`<w:ind w:left="${o.ind}"/>`:''}</w:pPr>${run((b.bul?'• ':'')+b.t.replace(/ /g,' '),o)}</w:p>`}
+const o=ST[b.k];body+=`<w:p><w:pPr><w:spacing w:before="${o.bf}" w:after="${o.af}"/>${o.ind?`<w:ind w:left="${o.ind}"/>`:''}</w:pPr>${run((b.bul?'• ':'')+nb(b.t),o)}</w:p>`}
 const z=new JSZip();
 z.file('[Content_Types].xml','<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/word/document.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml"/></Types>');
 z.file('_rels/.rels','<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="word/document.xml"/></Relationships>');
@@ -528,9 +528,10 @@ z.file('word/document.xml',`<?xml version="1.0" encoding="UTF-8" standalone="yes
 return z.generateAsync({type:'blob',mimeType:'application/vnd.openxmlformats-officedocument.wordprocessingml.document'})}
 async function doExport(scope,fmt){$('#xm').hidden=true;const n=cur();
 const base=(scope=='one'?(n.title.trim()||'Untitled'):'Class notes').replace(/[\\/:*?"<>|]+/g,'').slice(0,80)||'Notes',filename=base+'.'+fmt;
-const D=await DLP();if(!D){toast('Exporting works when this page is open in Claude.');return}
 toast('Preparing '+filename+'…');
 let blob;try{const m=scope=='one'?noteModel(n,1):allModel();blob=fmt=='pdf'?await makePdf(m):await makeDocx(m)}catch(e){toast(e.message||'Couldn’t build the file.');return}
+const D=await DLP();
+if(!D){const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=filename;a.click();URL.revokeObjectURL(a.href);toast('Saved '+filename);return}
 try{await D.save({filename,data:blob});toast('Saved '+filename)}catch(e){const c=e&&e.code;toast(c=='declined'?'Export cancelled.':c=='rate_limited'?'A save is already open. Finish it first.':'Couldn’t export: '+(e&&e.message||'this view doesn’t allow downloads.'))}}
 $('#xb').onclick=e=>{e.stopPropagation();const m=$('#xm');if(!m.hidden){m.hidden=true;return}m.hidden=false;const r=$('#xb').getBoundingClientRect();m.style.top=r.bottom+6+'px';m.style.left=Math.max(8,Math.min(r.right-240,innerWidth-248))+'px'};
 $('#xm').onclick=e=>{const b=e.target.closest('[data-x]');if(b){const[s,f]=b.dataset.x.split(':');doExport(s,f)}};
