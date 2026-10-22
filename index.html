@@ -117,6 +117,10 @@ label.dot input{position:absolute;inset:-4px;width:20px;height:20px;opacity:0;cu
 .cd[style*=background] .hd{color:rgba(0,0,0,.45)}.hd span{flex:1}.hd i{font-style:normal;cursor:pointer}
 .ct,.nt{flex:1;min-height:0;overflow:auto;padding:2px 12px 10px;outline:none;white-space:pre-wrap;word-break:break-word}.nt{font-weight:600;cursor:pointer}
 .rs{position:absolute;right:0;bottom:0;width:16px;height:16px;cursor:nwse-resize}
+.fo{display:flex;align-items:center;gap:4px;padding:5px 12px;margin:1px 8px;border-radius:9px;font-size:14px}
+.fo b{flex:1;font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.fo:hover{background:var(--hv)}.fo:hover .x{opacity:1}
+.cl .cv,.fo .cv{font-size:11px;padding:0 4px;width:18px;color:var(--mu);background:none}
+.dr{background:var(--hv);outline:2px dashed var(--ac);outline-offset:-2px}
 </style></head>
 <body><div id="app">
 <header><button id="mb" class="ib">☰</button><b class="br"><em>◆</em> middlephysics</b><span class="sp"></span><div class="seg"><button id="tn" class="on">Notes</button><button id="tg">Graph</button><button id="tb">Board</button></div><button id="th" class="ib">◐</button></header>
@@ -152,7 +156,7 @@ return{cur:n[0],classes:[{id:a,name:'Biology 101',color:P[1]},{id:b,name:'Intro 
 {id:n[2],cid:a,title:'Mitochondria',body:'<p>Produce ATP. Bounded by their own membranes. Related: [[Cell Membrane]].</p>'},
 {id:n[3],cid:b,title:'Memory',body:'<p>Encoding, storage, retrieval. Neurons burn lots of ATP, see [[Mitochondria]]. Try [[Spaced Repetition]] for revision.</p>'}]}}
 let S;try{S=JSON.parse(localStorage.getItem(K))}catch(e){}
-if(!S||!S.notes||!S.notes.length)S=seed();
+if(!S||!S.notes||!S.notes.length)S=seed();S.folders=S.folders||[];S.col=S.col||{};
 const save=()=>{try{localStorage.setItem(K,JSON.stringify(S))}catch(e){}};
 const db=new Promise((ok,no)=>{const r=indexedDB.open('classnotes-files',1);r.onupgradeneeded=()=>r.result.createObjectStore('f');r.onsuccess=()=>ok(r.result);r.onerror=no});
 const dbPut=async(k,v)=>{const d=await db;return new Promise((ok,no)=>{const t=d.transaction('f','readwrite');t.objectStore('f').put(v,k);t.oncomplete=ok;t.onerror=no})};
@@ -167,11 +171,19 @@ const byT=t=>S.notes.find(n=>n.title.trim().toLowerCase()==t.toLowerCase());
 const outs=n=>[...new Set([...tx(n.body).matchAll(/\[\[([^\]]+)\]\]/g)].map(m=>m[1].trim()))];
 const ccol=id=>(S.classes.find(c=>c.id==id)||{}).color||'#888';
 let RN=null,AR=null;
+const colp=id=>S.col&&S.col[id];
+const row=(n,d)=>`<div class="ni${n.id==S.cur?' on':''}" draggable="true" style="margin-left:${16+d*14}px" data-a="open" data-id="${n.id}"><span>${esc(n.title||'Untitled')}</span><button class="x" data-a="dn" data-id="${n.id}" title="Delete note">${AR=='n'+n.id?'Sure?':'✕'}</button></div>`;
+const nm=(o)=>RN==o.id?`<input class="rn" data-rn="${o.id}" value="${esc(o.name)}">`:`<b>${esc(o.name)}</b>`;
+function tree(cid,pid,d){let h='';
+S.folders.filter(f=>f.cid==cid&&(f.pid||null)==pid).forEach(f=>{
+h+=`<div class="fo" data-drop="f:${f.id}" style="padding-left:${12+d*14}px"><button class="cv" data-a="tg" data-id="${f.id}">${colp(f.id)?'▸':'▾'}</button>${nm(f)}<button class="x" data-a="ren" data-id="${f.id}" title="Rename">✎</button><button class="x" data-a="df" data-id="${f.id}" title="Delete folder (contents move up)">${AR=='f'+f.id?'Sure?':'✕'}</button><button class="x" data-a="nsf" data-id="${f.id}" title="New subfolder">📁</button><button class="x" data-a="newf" data-id="${f.id}" title="New note here">＋</button></div>`;
+if(!colp(f.id))h+=tree(cid,f.id,d+1)});
+return h+S.notes.filter(n=>n.cid==cid&&(n.fid||null)==pid).map(n=>row(n,d)).join('')}
 function side(){const q=$('#sq').value.toLowerCase();let h='';
-S.classes.forEach(c=>{const ns=S.notes.filter(n=>n.cid==c.id&&(!q||(n.title+' '+tx(n.body)).toLowerCase().includes(q)));
+S.classes.forEach(c=>{const ns=q?S.notes.filter(n=>n.cid==c.id&&(n.title+' '+tx(n.body)).toLowerCase().includes(q)):0;
 if(q&&!ns.length)return;
-h+=`<div class="cl"><label class="dot" style="background:${c.color}" title="Change color"><input type="color" value="${c.color}" data-col="${c.id}"></label>${RN==c.id?`<input class="rn" data-rn="${c.id}" value="${esc(c.name)}">`:`<b>${esc(c.name)}</b>`}<button class="x" data-a="ren" data-id="${c.id}" title="Rename">✎</button><button class="x" data-a="dc" data-id="${c.id}" title="Delete class">${AR=='c'+c.id?'Sure?':'✕'}</button><button class="x" data-a="new" data-id="${c.id}" title="New note">＋</button></div>`;
-ns.forEach(n=>h+=`<div class="ni${n.id==S.cur?' on':''}" data-a="open" data-id="${n.id}"><span>${esc(n.title||'Untitled')}</span><button class="x" data-a="dn" data-id="${n.id}" title="Delete note">${AR=='n'+n.id?'Sure?':'✕'}</button></div>`)});
+h+=`<div class="cl" data-drop="c:${c.id}">${q?'':`<button class="cv" data-a="tg" data-id="${c.id}">${colp(c.id)?'▸':'▾'}</button>`}<label class="dot" style="background:${c.color}" title="Change color"><input type="color" value="${c.color}" data-col="${c.id}"></label>${nm(c)}<button class="x" data-a="ren" data-id="${c.id}" title="Rename">✎</button><button class="x" data-a="dc" data-id="${c.id}" title="Delete class">${AR=='c'+c.id?'Sure?':'✕'}</button><button class="x" data-a="nf" data-id="${c.id}" title="New folder">📁</button><button class="x" data-a="new" data-id="${c.id}" title="New note">＋</button></div>`;
+if(q)h+=ns.map(n=>row(n,0)).join('');else if(!colp(c.id))h+=tree(c.id,null,0)});
 $('#sl').innerHTML=h;const rn=$('#sl .rn');if(rn){rn.focus();rn.select()}}
 function lk(){const n=cur(),o=outs(n),t=n.title.trim().toLowerCase();
 const bk=S.notes.filter(m=>m.id!=n.id&&t&&outs(m).some(x=>x.toLowerCase()==t));
@@ -179,7 +191,7 @@ const ch=(x,id,l)=>`<button class="ch${id?'':' ms'}" data-t="${esc(x)}"${id?` da
 $('#lk').innerHTML=(o.length?`<div><small>Links</small>${o.map(x=>{const m=byT(x);return ch(x,m&&m.id)}).join('')}</div>`:'')+(bk.length?`<div><small>Linked from</small>${bk.map(m=>ch(m.title,m.id,m.title||'Untitled')).join('')}</div>`:'')||'<small>Type [[Note Title]] to link notes together.</small>'}
 function show(){const v=S.view||'n';$('#nv').hidden=v!='n';$('#gv').hidden=v!='g';$('#bv').hidden=v!='b';['n','g','b'].forEach(k=>$('#t'+k).classList.toggle('on',v==k));if(v=='g')graph();if(v=='b')board()}
 function open(id){S.cur=id;S.view='n';const n=cur();$('#ti').value=n.title;$('#ed').innerHTML=n.body;hyd();hideSl();show();side();lk();save();$('#side').classList.remove('open')}
-function newNote(cid){const n={id:uid(),cid,title:'',body:''};S.notes.push(n);open(n.id);$('#ti').focus()}
+function newNote(cid,fid){const n={id:uid(),cid,fid:fid||null,title:'',body:''};S.notes.push(n);open(n.id);$('#ti').focus()}
 let tm;const later=()=>{clearTimeout(tm);tm=setTimeout(()=>{lk();save()},400)};
 const ex=(c,v)=>{$('#ed').focus();document.execCommand(c,false,v||null)};
 const fb=t=>ex('formatBlock','<'+t+'>');
@@ -241,22 +253,33 @@ $('#sb').onclick=()=>ex('insertText','/');
 $('#lb').onclick=lnk;
 let dc;$('#dl').onclick=function(){if(!dc){dc=1;this.textContent='Sure?';setTimeout(()=>{dc=0;this.textContent='🗑'},3000);return}
 dc=0;this.textContent='🗑';S.notes=S.notes.filter(n=>n.id!=S.cur);S.notes.length?open(S.notes[0].id):newNote(S.classes[0].id)};
-$('#sl').onclick=e=>{const b=e.target.closest('[data-a]');if(!b)return;const a=b.dataset.a,id=b.dataset.id;
-if(a=='open')open(id);else if(a=='new')newNote(id);else if(a=='ren'){RN=id;side()}
-else{const k=(a=='dc'?'c':'n')+id;if(AR!=k){AR=k;side();setTimeout(()=>{AR=null;side()},3000);return}
-AR=null;if(a=='dc'){if(S.classes.length<2)return side();S.classes=S.classes.filter(c=>c.id!=id);S.notes=S.notes.filter(n=>n.cid!=id);if(S.boards)delete S.boards[id]}else S.notes=S.notes.filter(n=>n.id!=id);
-if(!S.notes.length)S.notes.push({id:uid(),cid:S.classes[0].id,title:'',body:''});if(!cur())S.cur=S.notes[0].id;open(S.cur)}};
+$('#sl').onclick=e=>{const b=e.target.closest('[data-a]');if(!b)return;const a=b.dataset.a,id=b.dataset.id,fnd=i=>S.folders.find(f=>f.id==i);
+if(a=='open')return open(id);if(a=='new')return newNote(id);if(a=='newf')return newNote(fnd(id).cid,id);
+if(a=='tg'){S.col[id]=!S.col[id];side();return save()}
+if(a=='ren'){RN=id;return side()}
+if(a=='nf'||a=='nsf'){const p=a=='nsf'?fnd(id):null,f={id:uid(),cid:p?p.cid:id,pid:p?p.id:null,name:'New folder'};S.folders.push(f);S.col[id]=false;RN=f.id;save();return side()}
+const k={dc:'c',df:'f',dn:'n'}[a]+id;if(AR!=k){AR=k;side();setTimeout(()=>{AR=null;side()},3000);return}
+AR=null;
+if(a=='dc'){if(S.classes.length<2)return side();S.classes=S.classes.filter(c=>c.id!=id);S.notes=S.notes.filter(n=>n.cid!=id);S.folders=S.folders.filter(f=>f.cid!=id);if(S.boards)delete S.boards[id]}
+else if(a=='df'){const f=fnd(id);S.notes.forEach(n=>{if(n.fid==id)n.fid=f.pid||null});S.folders.forEach(x=>{if(x.pid==id)x.pid=f.pid||null});S.folders=S.folders.filter(x=>x.id!=id)}
+else S.notes=S.notes.filter(n=>n.id!=id);
+if(!S.notes.length)S.notes.push({id:uid(),cid:S.classes[0].id,fid:null,title:'',body:''});if(!cur())S.cur=S.notes[0].id;open(S.cur)};
+$('#sl').addEventListener('dragstart',e=>{const n=e.target.closest('.ni');if(n)e.dataTransfer.setData('text/plain',n.dataset.id)});
+$('#sl').addEventListener('dragover',e=>{const t=e.target.closest('[data-drop]');if(!t)return;e.preventDefault();document.querySelectorAll('.dr').forEach(x=>x.classList.remove('dr'));t.classList.add('dr')});
+$('#sl').addEventListener('drop',e=>{const t=e.target.closest('[data-drop]'),n=S.notes.find(n=>n.id==e.dataTransfer.getData('text/plain'));if(!t||!n)return;e.preventDefault();
+const[k,id]=t.dataset.drop.split(':');if(k=='c'){n.cid=id;n.fid=null}else{const f=S.folders.find(f=>f.id==id);n.cid=f.cid;n.fid=f.id;S.col[f.id]=false}side();save()});
+$('#sl').addEventListener('dragend',side);
 $('#sl').oninput=e=>{const t=e.target;if(t.dataset.col){const c=S.classes.find(c=>c.id==t.dataset.col);c.color=t.value;t.parentElement.style.background=t.value;save()}};
 $('#sl').addEventListener('keydown',e=>{if(e.target.dataset.rn&&e.key=='Enter')e.target.blur()});
-$('#sl').addEventListener('focusout',e=>{const id=e.target.dataset.rn;if(!id||RN!=id)return;RN=null;const v=e.target.value.trim();if(v)S.classes.find(c=>c.id==id).name=v;side();save()});
-$('#lk').onclick=e=>{const b=e.target.closest('.ch');if(!b)return;if(b.dataset.id)open(b.dataset.id);else{const m={id:uid(),cid:cur().cid,title:b.dataset.t,body:''};S.notes.push(m);open(m.id)}};
+$('#sl').addEventListener('focusout',e=>{const id=e.target.dataset.rn;if(!id||RN!=id)return;RN=null;const v=e.target.value.trim();if(v)(S.classes.find(c=>c.id==id)||S.folders.find(f=>f.id==id)).name=v;side();save()});
+$('#lk').onclick=e=>{const b=e.target.closest('.ch');if(!b)return;if(b.dataset.id)open(b.dataset.id);else{const m={id:uid(),cid:cur().cid,fid:cur().fid||null,title:b.dataset.t,body:''};S.notes.push(m);open(m.id)}};
 $('#sq').oninput=side;
 $('#nc').onkeydown=e=>{const v=e.target.value.trim();if(e.key=='Enter'&&v){S.classes.push({id:uid(),name:v,color:P[S.classes.length%P.length]});e.target.value='';side();save()}};
 $('#tn').onclick=()=>{S.view='n';show()};$('#tg').onclick=()=>{S.view='g';show()};
 $('#mb').onclick=()=>$('#side').classList.toggle('open');
 $('#th').onclick=()=>{const r=document.documentElement,d=r.dataset.theme?r.dataset.theme=='dark':matchMedia('(prefers-color-scheme:dark)').matches;r.dataset.theme=d?'light':'dark'};
 $('#bb').onclick=()=>{const p=$('#bp');p.hidden=!p.hidden;$('#bt').value=JSON.stringify(S)};
-$('#br').onclick=()=>{try{const d=JSON.parse($('#bt').value);if(!d.notes.length||!d.classes)throw 0;S=d;if(!cur())S.cur=S.notes[0].id;open(S.cur)}catch(e){$('#bt').value='Couldn’t read that backup.'}};
+$('#br').onclick=()=>{try{const d=JSON.parse($('#bt').value);if(!d.notes.length||!d.classes)throw 0;S=d;S.folders=S.folders||[];S.col=S.col||{};if(!cur())S.cur=S.notes[0].id;open(S.cur)}catch(e){$('#bt').value='Couldn’t read that backup.'}};
 $('#ed').addEventListener('pointerdown',e=>{if(!e.target.classList.contains('rz'))return;e.preventDefault();
 const z=e.target,p=z.closest('.pdf'),f=p.querySelector('iframe'),x=e.clientX,y=e.clientY,w=p.offsetWidth,h=f.offsetHeight,mw=$('#ed').clientWidth;z.setPointerCapture(e.pointerId);
 const mv=v=>{p.style.width=Math.min(mw,Math.max(240,w+v.clientX-x))+'px';f.style.height=Math.max(160,h+v.clientY-y)+'px'};
