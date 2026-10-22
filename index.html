@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en"><head><meta charset="utf-8"><title>Classnotes</title>
+<html lang="en"><head><meta charset="utf-8"><title>middlephysics · notes</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
@@ -85,15 +85,47 @@ main{flex:1;display:flex;min-height:0;position:relative}
 #side.open{transform:none;box-shadow:var(--sh)}
 #ti{font-size:26px}.pg{padding:12px 16px 0}
 }
+
+:root{--bg:#f5f5f7;--pn:#fff;--tx:#1d1d1f;--mu:#86868b;--bd:rgba(0,0,0,.09);--ac:#0071e3;--hv:rgba(0,0,0,.05);--gb:#efeff3;--dot:#d6d6dc;--sh:0 12px 40px rgba(0,0,0,.18);--gl:rgba(255,255,255,.74)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#000;--pn:#1c1c1e;--tx:#f5f5f7;--mu:#98989d;--bd:rgba(255,255,255,.12);--ac:#0a84ff;--hv:rgba(255,255,255,.08);--gb:#0a0a0c;--dot:#222226;--sh:0 12px 40px rgba(0,0,0,.6);--gl:rgba(30,30,32,.74)}}
+:root[data-theme="dark"]{--bg:#000;--pn:#1c1c1e;--tx:#f5f5f7;--mu:#98989d;--bd:rgba(255,255,255,.12);--ac:#0a84ff;--hv:rgba(255,255,255,.08);--gb:#0a0a0c;--dot:#222226;--sh:0 12px 40px rgba(0,0,0,.6);--gl:rgba(30,30,32,.74)}
+body{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro Display",Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+header,#side,#bt2,#gf,#gb,#sm{background:var(--gl);-webkit-backdrop-filter:saturate(180%) blur(22px);backdrop-filter:saturate(180%) blur(22px)}
+button{border:0;background:var(--hv);border-radius:980px;padding:5px 14px}
+.seg{border-radius:980px}.seg button{background:none;border-radius:980px;padding:4px 16px}.seg button:hover{background:none;color:var(--tx)}.seg button.on{background:var(--pn)}
+.br{color:var(--tx);font-weight:600;letter-spacing:-.02em}.br em{font-style:normal;color:var(--ac)}
+#ti{font-size:36px;font-weight:700;letter-spacing:-.035em}
+.ni{display:flex;justify-content:space-between;align-items:center;border-radius:9px;color:var(--tx)}
+.ni span{overflow:hidden;text-overflow:ellipsis}.ni.on{background:var(--ac);color:#fff}.ni.on .x{color:#fff}
+.x{background:none;padding:0 6px;color:var(--mu);font-size:12px;opacity:0}.cl:hover .x,.ni:hover .x{opacity:1}
+label.dot{position:relative;width:12px;height:12px;overflow:hidden;cursor:pointer;flex:none}
+label.dot input{position:absolute;inset:-4px;width:20px;height:20px;opacity:0;cursor:pointer;padding:0}
+.rn{flex:1;min-width:0;padding:2px 8px}
+#sm{border-radius:14px}.ch{background:var(--hv)}
+.pdf{position:relative;max-width:100%}.pdf iframe{border-radius:12px}
+.rz{position:absolute;right:-6px;bottom:-6px;width:16px;height:16px;border-radius:50%;background:var(--ac);cursor:nwse-resize;opacity:.85}
+#bv{flex:1;display:flex;flex-direction:column;min-width:0}
+#bt2{display:flex;align-items:center;gap:8px;padding:8px 16px;flex-wrap:wrap;border-bottom:1px solid var(--bd)}
+#bt2 select{font:inherit;font-size:13px;color:var(--tx);background:var(--hv);border:0;border-radius:980px;padding:5px 12px}
+#bs{flex:1;position:relative;overflow:hidden;touch-action:none;cursor:grab;background:radial-gradient(var(--dot) 1.2px,transparent 1.2px) 0 0/24px 24px,var(--gb)}
+#bs[data-e]:after{content:"Double-click anywhere to add a card";position:absolute;inset:0;display:grid;place-items:center;color:var(--mu);pointer-events:none}
+#bw{position:absolute;left:0;top:0;transform-origin:0 0}
+#bl{position:absolute;left:0;top:0;width:1px;height:1px;overflow:visible;color:var(--mu)}#bl line{stroke:currentColor;stroke-width:2}
+.cd{position:absolute;box-sizing:border-box;display:flex;flex-direction:column;background:var(--pn);border:1px solid var(--bd);border-radius:14px;box-shadow:0 1px 2px rgba(0,0,0,.08),0 10px 28px rgba(0,0,0,.1)}
+.cd.sel{outline:2px solid var(--ac)}
+.hd{display:flex;align-items:center;gap:8px;padding:5px 10px;font-size:11px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--mu);cursor:grab}
+.cd[style*=background] .hd{color:rgba(0,0,0,.45)}.hd span{flex:1}.hd i{font-style:normal;cursor:pointer}
+.ct,.nt{flex:1;min-height:0;overflow:auto;padding:2px 12px 10px;outline:none;white-space:pre-wrap;word-break:break-word}.nt{font-weight:600;cursor:pointer}
+.rs{position:absolute;right:0;bottom:0;width:16px;height:16px;cursor:nwse-resize}
 </style></head>
 <body><div id="app">
-<header><button id="mb" class="ib">☰</button><b class="br">◆ Classnotes</b><span class="sp"></span><div class="seg"><button id="tn" class="on">Notes</button><button id="tg">Graph</button></div><button id="th" class="ib">◐</button></header>
+<header><button id="mb" class="ib">☰</button><b class="br"><em>◆</em> middlephysics</b><span class="sp"></span><div class="seg"><button id="tn" class="on">Notes</button><button id="tg">Graph</button><button id="tb">Board</button></div><button id="th" class="ib">◐</button></header>
 <main>
 <aside id="side">
 <input id="sq" placeholder="Search notes…">
 <div id="sl"></div>
 <input id="nc" placeholder="＋ New class (press Enter)">
-<div id="ft"><span id="tm">25:00</span><button id="ts">Start</button><button id="tr">Reset</button><button id="bb">Backup</button></div>
+<div id="ft"><button id="bb">Backup &amp; restore</button></div>
 <div id="bp" hidden><textarea id="bt"></textarea><button id="br">Restore from text</button></div>
 </aside>
 <section id="nv"><div class="pg">
@@ -102,6 +134,7 @@ main{flex:1;display:flex;min-height:0;position:relative}
 <div id="ed" contenteditable="true"></div>
 <div id="lk"></div>
 </div></section>
+<section id="bv" hidden><div id="bt2"><select id="bsel"></select><button id="ba">＋ Card</button><select id="bn"></select><button id="bk">Connect</button><span class="sp"></span><button id="bzo">－</button><button id="bzi">＋</button></div><div id="bs"><div id="bw"><svg id="bl"></svg><div id="bc"></div></div></div></section>
 <section id="gv" hidden><svg id="sv"></svg><div id="gb" hidden></div><div id="gf"><button id="zo">－</button><button id="zi">＋</button><div id="lg"></div></div></section>
 </main></div>
 <div id="sm" hidden></div>
@@ -127,23 +160,24 @@ const dbGet=async k=>{try{const d=await db;return await new Promise((ok,no)=>{co
 const bodyHTML=()=>{const c=$('#ed').cloneNode(true);c.querySelectorAll('.pdf').forEach(p=>p.innerHTML='');return c.innerHTML};
 async function hyd(){for(const p of $('#ed').querySelectorAll('.pdf')){if(p.firstChild)continue;const b=await dbGet(p.dataset.pdf),nm=esc(p.dataset.name||'PDF');
 if(!b){p.innerHTML=`<div class="ph">📄 ${nm} · file isn’t stored on this computer</div>`;continue}
-p.innerHTML=`<div class="ph"><span>📄 ${nm}</span><button data-x="1">Remove</button></div><iframe src="${URL.createObjectURL(b)}#view=FitH"></iframe>`}}
+p.innerHTML=`<div class="ph"><span>📄 ${nm}</span><button data-x="1">Remove</button></div><iframe src="${URL.createObjectURL(b)}#view=FitH" style="height:${p.dataset.h||620}px"></iframe><div class="rz"></div>`;if(p.dataset.w)p.style.width=p.dataset.w+'px'}}
 let PR=null;
 const cur=()=>S.notes.find(n=>n.id==S.cur);
 const byT=t=>S.notes.find(n=>n.title.trim().toLowerCase()==t.toLowerCase());
 const outs=n=>[...new Set([...tx(n.body).matchAll(/\[\[([^\]]+)\]\]/g)].map(m=>m[1].trim()))];
 const ccol=id=>(S.classes.find(c=>c.id==id)||{}).color||'#888';
+let RN=null,AR=null;
 function side(){const q=$('#sq').value.toLowerCase();let h='';
 S.classes.forEach(c=>{const ns=S.notes.filter(n=>n.cid==c.id&&(!q||(n.title+' '+tx(n.body)).toLowerCase().includes(q)));
 if(q&&!ns.length)return;
-h+=`<div class="cl"><span class="dot" style="background:${c.color}"></span><b>${esc(c.name)}</b><button data-a="new" data-id="${c.id}">＋</button></div>`;
-ns.forEach(n=>h+=`<div class="ni${n.id==S.cur?' on':''}" data-a="open" data-id="${n.id}">${esc(n.title||'Untitled')}</div>`)});
-$('#sl').innerHTML=h}
+h+=`<div class="cl"><label class="dot" style="background:${c.color}" title="Change color"><input type="color" value="${c.color}" data-col="${c.id}"></label>${RN==c.id?`<input class="rn" data-rn="${c.id}" value="${esc(c.name)}">`:`<b>${esc(c.name)}</b>`}<button class="x" data-a="ren" data-id="${c.id}" title="Rename">✎</button><button class="x" data-a="dc" data-id="${c.id}" title="Delete class">${AR=='c'+c.id?'Sure?':'✕'}</button><button class="x" data-a="new" data-id="${c.id}" title="New note">＋</button></div>`;
+ns.forEach(n=>h+=`<div class="ni${n.id==S.cur?' on':''}" data-a="open" data-id="${n.id}"><span>${esc(n.title||'Untitled')}</span><button class="x" data-a="dn" data-id="${n.id}" title="Delete note">${AR=='n'+n.id?'Sure?':'✕'}</button></div>`)});
+$('#sl').innerHTML=h;const rn=$('#sl .rn');if(rn){rn.focus();rn.select()}}
 function lk(){const n=cur(),o=outs(n),t=n.title.trim().toLowerCase();
 const bk=S.notes.filter(m=>m.id!=n.id&&t&&outs(m).some(x=>x.toLowerCase()==t));
 const ch=(x,id,l)=>`<button class="ch${id?'':' ms'}" data-t="${esc(x)}"${id?` data-id="${id}"`:''}>${esc(l||x)}</button>`;
 $('#lk').innerHTML=(o.length?`<div><small>Links</small>${o.map(x=>{const m=byT(x);return ch(x,m&&m.id)}).join('')}</div>`:'')+(bk.length?`<div><small>Linked from</small>${bk.map(m=>ch(m.title,m.id,m.title||'Untitled')).join('')}</div>`:'')||'<small>Type [[Note Title]] to link notes together.</small>'}
-function show(){const g=S.view=='g';$('#nv').hidden=g;$('#gv').hidden=!g;$('#tn').classList.toggle('on',!g);$('#tg').classList.toggle('on',g);if(g)graph()}
+function show(){const v=S.view||'n';$('#nv').hidden=v!='n';$('#gv').hidden=v!='g';$('#bv').hidden=v!='b';['n','g','b'].forEach(k=>$('#t'+k).classList.toggle('on',v==k));if(v=='g')graph();if(v=='b')board()}
 function open(id){S.cur=id;S.view='n';const n=cur();$('#ti').value=n.title;$('#ed').innerHTML=n.body;hyd();hideSl();show();side();lk();save();$('#side').classList.remove('open')}
 function newNote(cid){const n={id:uid(),cid,title:'',body:''};S.notes.push(n);open(n.id);$('#ti').focus()}
 let tm;const later=()=>{clearTimeout(tm);tm=setTimeout(()=>{lk();save()},400)};
@@ -207,7 +241,14 @@ $('#sb').onclick=()=>ex('insertText','/');
 $('#lb').onclick=lnk;
 let dc;$('#dl').onclick=function(){if(!dc){dc=1;this.textContent='Sure?';setTimeout(()=>{dc=0;this.textContent='🗑'},3000);return}
 dc=0;this.textContent='🗑';S.notes=S.notes.filter(n=>n.id!=S.cur);S.notes.length?open(S.notes[0].id):newNote(S.classes[0].id)};
-$('#sl').onclick=e=>{const b=e.target.closest('[data-a]');if(b)b.dataset.a=='open'?open(b.dataset.id):newNote(b.dataset.id)};
+$('#sl').onclick=e=>{const b=e.target.closest('[data-a]');if(!b)return;const a=b.dataset.a,id=b.dataset.id;
+if(a=='open')open(id);else if(a=='new')newNote(id);else if(a=='ren'){RN=id;side()}
+else{const k=(a=='dc'?'c':'n')+id;if(AR!=k){AR=k;side();setTimeout(()=>{AR=null;side()},3000);return}
+AR=null;if(a=='dc'){if(S.classes.length<2)return side();S.classes=S.classes.filter(c=>c.id!=id);S.notes=S.notes.filter(n=>n.cid!=id);if(S.boards)delete S.boards[id]}else S.notes=S.notes.filter(n=>n.id!=id);
+if(!S.notes.length)S.notes.push({id:uid(),cid:S.classes[0].id,title:'',body:''});if(!cur())S.cur=S.notes[0].id;open(S.cur)}};
+$('#sl').oninput=e=>{const t=e.target;if(t.dataset.col){const c=S.classes.find(c=>c.id==t.dataset.col);c.color=t.value;t.parentElement.style.background=t.value;save()}};
+$('#sl').addEventListener('keydown',e=>{if(e.target.dataset.rn&&e.key=='Enter')e.target.blur()});
+$('#sl').addEventListener('focusout',e=>{const id=e.target.dataset.rn;if(!id||RN!=id)return;RN=null;const v=e.target.value.trim();if(v)S.classes.find(c=>c.id==id).name=v;side();save()});
 $('#lk').onclick=e=>{const b=e.target.closest('.ch');if(!b)return;if(b.dataset.id)open(b.dataset.id);else{const m={id:uid(),cid:cur().cid,title:b.dataset.t,body:''};S.notes.push(m);open(m.id)}};
 $('#sq').oninput=side;
 $('#nc').onkeydown=e=>{const v=e.target.value.trim();if(e.key=='Enter'&&v){S.classes.push({id:uid(),name:v,color:P[S.classes.length%P.length]});e.target.value='';side();save()}};
@@ -216,10 +257,48 @@ $('#mb').onclick=()=>$('#side').classList.toggle('open');
 $('#th').onclick=()=>{const r=document.documentElement,d=r.dataset.theme?r.dataset.theme=='dark':matchMedia('(prefers-color-scheme:dark)').matches;r.dataset.theme=d?'light':'dark'};
 $('#bb').onclick=()=>{const p=$('#bp');p.hidden=!p.hidden;$('#bt').value=JSON.stringify(S)};
 $('#br').onclick=()=>{try{const d=JSON.parse($('#bt').value);if(!d.notes.length||!d.classes)throw 0;S=d;if(!cur())S.cur=S.notes[0].id;open(S.cur)}catch(e){$('#bt').value='Couldn’t read that backup.'}};
-let T=1500,ti=null;const td=()=>$('#tm').textContent=String(T/60|0).padStart(2,'0')+':'+String(T%60).padStart(2,'0');
-const stop=()=>{clearInterval(ti);ti=null;$('#ts').textContent='Start'};
-$('#ts').onclick=()=>{if(ti)return stop();$('#ts').textContent='Pause';ti=setInterval(()=>{T--;td();if(T<=0){stop();T=1500;$('#tm').textContent='Done!'}},1000)};
-$('#tr').onclick=()=>{stop();T=1500;td()};
+$('#ed').addEventListener('pointerdown',e=>{if(!e.target.classList.contains('rz'))return;e.preventDefault();
+const z=e.target,p=z.closest('.pdf'),f=p.querySelector('iframe'),x=e.clientX,y=e.clientY,w=p.offsetWidth,h=f.offsetHeight,mw=$('#ed').clientWidth;z.setPointerCapture(e.pointerId);
+const mv=v=>{p.style.width=Math.min(mw,Math.max(240,w+v.clientX-x))+'px';f.style.height=Math.max(160,h+v.clientY-y)+'px'};
+const up=()=>{z.removeEventListener('pointermove',mv);z.removeEventListener('pointerup',up);p.dataset.w=p.offsetWidth;p.dataset.h=f.offsetHeight;$('#ed').oninput()};
+z.addEventListener('pointermove',mv);z.addEventListener('pointerup',up)});
+const CC=['','#fff1a8','#ffd6e0','#cfe8ff','#d3f5d0','#e4d9ff'];
+let BC=null,BS=null,BV={k:1,x:40,y:40},CONN=0,FIRST=null;
+const bd=()=>{S.boards=S.boards||{};if(!S.classes.some(c=>c.id==BC))BC=S.classes[0].id;return S.boards[BC]||(S.boards[BC]={cards:[],links:[]})};
+const btf=()=>$('#bw').style.transform=`translate(${BV.x}px,${BV.y}px) scale(${BV.k})`;
+const edge=(a,b)=>{const ax=a.x+a.w/2,ay=a.y+a.h/2,dx=b.x+b.w/2-ax,dy=b.y+b.h/2-ay,t=Math.min(a.w/2/Math.abs(dx||1e-6),a.h/2/Math.abs(dy||1e-6));return[ax+dx*t,ay+dy*t]};
+function blines(){const by=Object.fromEntries(bd().cards.map(c=>[c.id,c]));
+$('#bl').innerHTML='<defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="currentColor"/></marker></defs>'+bd().links.map(([i,j])=>{const a=by[i],c=by[j];if(!a||!c)return'';const p=edge(a,c),q=edge(c,a);return`<line x1="${p[0]}" y1="${p[1]}" x2="${q[0]}" y2="${q[1]}" marker-end="url(#ar)"/>`}).join('')}
+function board(){const b=bd();
+$('#bsel').innerHTML=S.classes.map(c=>`<option value="${c.id}"${c.id==BC?' selected':''}>${esc(c.name)}</option>`).join('');
+$('#bn').innerHTML='<option value="">＋ Note card…</option>'+S.notes.filter(n=>n.cid==BC).map(n=>`<option value="${n.id}">${esc(n.title||'Untitled')}</option>`).join('');
+$('#bc').innerHTML=b.cards.map(c=>`<div class="cd${c.id==FIRST?' sel':''}" data-id="${c.id}" style="left:${c.x}px;top:${c.y}px;width:${c.w}px;height:${c.h}px;${c.c?`background:${CC[c.c]};color:#1d1d1f`:''}"><div class="hd" data-m="drag"><span>${c.nid?'Note':'Card'}</span><i data-m="col">●</i><i data-m="del">✕</i></div>${c.nid?`<div class="nt" data-m="open">${esc((S.notes.find(n=>n.id==c.nid)||{}).title||'Deleted note')} ›</div>`:`<div class="ct" contenteditable="true" data-m="txt">${esc(c.t||'')}</div>`}<div class="rs" data-m="rs"></div></div>`).join('');
+$('#bs').toggleAttribute('data-e',!b.cards.length);blines();btf()}
+const ctr=()=>{const r=$('#bs').getBoundingClientRect();return[(r.width/2-BV.x)/BV.k,(r.height/2-BV.y)/BV.k]};
+const addCard=(x,y,nid)=>{bd().cards.push({id:uid(),x,y,w:nid?200:210,h:nid?90:130,c:nid?0:1,t:'',nid});board();save()};
+const bzoom=(f,mx,my)=>{const r=$('#bs').getBoundingClientRect();mx=mx??r.width/2;my=my??r.height/2;const k=Math.max(.3,Math.min(2.5,BV.k*f));BV.x=mx-(mx-BV.x)*k/BV.k;BV.y=my-(my-BV.y)*k/BV.k;BV.k=k;btf()};
+$('#bs').onpointerdown=e=>{const m=e.target.closest('[data-m]'),cd=e.target.closest('.cd');BS=null;
+if(!cd){BS={t:'pan',x:e.clientX-BV.x,y:e.clientY-BV.y};$('#bs').setPointerCapture(e.pointerId);return}
+const b=bd(),c=b.cards.find(x=>x.id==cd.dataset.id),k=m&&m.dataset.m;
+if(CONN){e.preventDefault();if(!FIRST){FIRST=c.id;cd.classList.add('sel')}else{if(FIRST!=c.id){const i=b.links.findIndex(l=>l.includes(FIRST)&&l.includes(c.id));i<0?b.links.push([FIRST,c.id]):b.links.splice(i,1)}FIRST=null;board();save()}return}
+if(k=='del'){b.cards=b.cards.filter(x=>x!=c);b.links=b.links.filter(l=>!l.includes(c.id));board();save()}
+else if(k=='col'){c.c=(c.c+1)%CC.length;board();save()}
+else if(k=='open'){if(S.notes.some(n=>n.id==c.nid))open(c.nid)}
+else if(k=='drag'||k=='rs'){BS={t:k,c,sx:e.clientX,sy:e.clientY,cx:c.x,cy:c.y,cw:c.w,ch:c.h};$('#bs').setPointerCapture(e.pointerId)}};
+$('#bs').onpointermove=e=>{if(!BS)return;if(BS.t=='pan'){BV.x=e.clientX-BS.x;BV.y=e.clientY-BS.y;btf();return}
+const dx=(e.clientX-BS.sx)/BV.k,dy=(e.clientY-BS.sy)/BV.k,c=BS.c;
+if(BS.t=='drag'){c.x=BS.cx+dx;c.y=BS.cy+dy}else{c.w=Math.max(120,BS.cw+dx);c.h=Math.max(70,BS.ch+dy)}
+const el=$('#bc').querySelector(`[data-id="${c.id}"]`);el.style.left=c.x+'px';el.style.top=c.y+'px';el.style.width=c.w+'px';el.style.height=c.h+'px';blines()};
+$('#bs').onpointerup=()=>{if(BS&&BS.t!='pan')save();BS=null};
+$('#bs').onwheel=e=>{e.preventDefault();const r=$('#bs').getBoundingClientRect();bzoom(e.deltaY<0?1.1:.9,e.clientX-r.left,e.clientY-r.top)};
+$('#bs').ondblclick=e=>{if(e.target.closest('.cd'))return;const r=$('#bs').getBoundingClientRect();addCard((e.clientX-r.left-BV.x)/BV.k-105,(e.clientY-r.top-BV.y)/BV.k-30)};
+$('#bc').oninput=e=>{const cd=e.target.closest('.cd');if(cd){bd().cards.find(x=>x.id==cd.dataset.id).t=e.target.innerText;save()}};
+$('#ba').onclick=()=>{const[x,y]=ctr();addCard(x-105+Math.random()*60,y-65+Math.random()*60)};
+$('#bn').onchange=e=>{if(e.target.value){const[x,y]=ctr();addCard(x-100,y-45,e.target.value)}};
+$('#bk').onclick=()=>{CONN=CONN?0:1;FIRST=null;$('#bk').textContent=CONN?'Done connecting':'Connect';$('#bk').classList.toggle('on',!!CONN);board()};
+$('#bsel').onchange=e=>{BC=e.target.value;FIRST=null;board()};
+$('#bzi').onclick=()=>bzoom(1.25);$('#bzo').onclick=()=>bzoom(.8);
+$('#tb').onclick=()=>{S.view='b';show()};
 let raf;
 function graph(){const sv=$('#sv'),W=sv.clientWidth||360,H=sv.clientHeight||480,cl=S.classes,N=[],ix={},E=[],gh={};
 S.notes.forEach(n=>{ix[n.id]=N[N.push({id:n.id,t:n.title||'Untitled',cid:n.cid,deg:0,vx:0,vy:0})-1]});
