@@ -1,15 +1,16 @@
 <!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
 <title>middlephysics</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Familjen+Grotesk:wght@500;600;700&family=Martian+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 /* Layout: a quiet hub page that opens into a three-pane study app (classes / note / links). Cobalt is the only accent; neutrals lean cool. */
 :root{
 --bg:#f4f5f7;--pn:#ffffff;--tx:#15171c;--mu:#697080;--bd:#e2e5eb;--hv:#eceef2;--ac:#2d55c8;--act:#ffffff;--acs:rgba(45,85,200,.10);--gb:#eef0f4;--dot:#d3d7df;
 --sh:0 12px 36px rgba(16,22,40,.14);
---f-body:"Geist",ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
---f-disp:"Instrument Serif",Georgia,"Times New Roman",serif;
---f-mono:"Geist Mono",ui-monospace,Menlo,Consolas,monospace;
+--f-body:"Schibsted Grotesk",ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+--f-disp:"Schibsted Grotesk",ui-sans-serif,system-ui,sans-serif;
+--f-acc:"Familjen Grotesk",ui-sans-serif,system-ui,sans-serif;
+--f-mono:"Martian Mono",ui-monospace,Menlo,Consolas,monospace;
 }
 @media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0e1014;--pn:#161920;--tx:#e7e9ee;--mu:#8b92a3;--bd:#262a33;--hv:#1f232b;--ac:#86a2ff;--act:#0e1014;--acs:rgba(134,162,255,.14);--gb:#0b0d10;--dot:#22262e;--sh:0 12px 36px rgba(0,0,0,.6);color-scheme:dark}}
 :root[data-theme="dark"]{--bg:#0e1014;--pn:#161920;--tx:#e7e9ee;--mu:#8b92a3;--bd:#262a33;--hv:#1f232b;--ac:#86a2ff;--act:#0e1014;--acs:rgba(134,162,255,.14);--gb:#0b0d10;--dot:#22262e;--sh:0 12px 36px rgba(0,0,0,.6);color-scheme:dark}
@@ -28,24 +29,25 @@ input:focus,textarea:focus{border-color:var(--ac)}
 .sp{flex:1}
 .top{display:flex;align-items:center;gap:8px;height:52px;padding:0 max(16px,env(safe-area-inset-right,0px)) 0 max(16px,env(safe-area-inset-left,0px));background:var(--pn);border-bottom:1px solid var(--bd);flex:none}
 .br{font-weight:600;letter-spacing:-.01em;font-size:15px}
-.crumb{font-family:var(--f-disp);font-size:22px;line-height:1}
+.crumb{font:600 18px/1 var(--f-acc);letter-spacing:-.02em}
 
 /* Hub */
 #hub{min-height:100%;display:flex;flex-direction:column}
 .hubm{width:100%;max-width:980px;margin:0 auto;padding-block:64px 48px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:flex;flex-direction:column;gap:12px}
 .eyebrow{margin:0;font-size:12px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--mu)}
-.wel{margin:0;font:400 clamp(44px,8vw,76px)/1.02 var(--f-disp);letter-spacing:-.015em;text-wrap:balance}
-.wel em{color:var(--ac)}
-.lede{margin:0 0 28px;color:var(--mu);font-size:16px;max-width:46ch}
+.wel{margin:0;font:600 clamp(40px,7vw,64px)/1.05 var(--f-disp);letter-spacing:-.035em;text-wrap:balance}
+.wel em{font:700 1.04em var(--f-acc);font-style:normal;letter-spacing:-.04em;color:var(--ac)}
+.lede{margin:0 0 28px;color:var(--mu);font-size:16px;max-width:52ch}
+.lede b{color:var(--tx);font-weight:500}
 .spaces{display:grid;grid-template-columns:1.25fr 1fr;gap:16px}
 .tile{background:var(--pn);border:1px solid var(--bd);border-radius:14px;padding:24px;display:flex;flex-direction:column;gap:14px;min-width:0}
 .tl-k{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--mu)}
-.tile h2{margin:0;font:400 40px/1 var(--f-disp)}
+.tile h2{margin:0;font:700 34px/1 var(--f-acc);letter-spacing:-.035em}
 .tile h3{margin:0;font-size:13px;font-weight:600}
 .tile p{margin:0;color:var(--mu)}
 .stats{display:flex;gap:28px;padding:14px 0;border-block:1px solid var(--bd)}
 .stats div{display:flex;flex-direction:column}
-.stats b{font:500 26px/1.1 var(--f-mono);font-variant-numeric:tabular-nums}
+.stats b{font:400 22px/1.2 var(--f-mono);font-variant-numeric:tabular-nums}
 .stats span{font-size:12px;color:var(--mu)}
 .clsrow{display:flex;flex-wrap:wrap;gap:6px}
 .chip{display:inline-flex;align-items:center;gap:6px;font-size:12px;padding:3px 10px;border-radius:99px;background:var(--hv)}
@@ -99,16 +101,16 @@ label.dot input{position:absolute;inset:-6px;width:22px;height:22px;opacity:0;cu
 #nv{overflow:auto}
 .pg{display:flex;flex-direction:column;flex:1;width:100%;max-width:760px;margin:0 auto;padding:22px 24px 0}
 .tr{display:flex;align-items:center;gap:6px}
-#ti{flex:1;min-width:0;background:none;border:0;border-radius:0;padding:4px 0;font:400 42px/1.15 var(--f-disp);letter-spacing:-.01em}
+#ti{flex:1;min-width:0;background:none;border:0;border-radius:0;padding:4px 0;font:700 38px/1.15 var(--f-disp);letter-spacing:-.03em}
 #ti::placeholder{color:var(--mu)}
 #meta{font-size:12px;color:var(--mu);display:flex;align-items:center;gap:6px;padding:2px 0 8px}
 .tb{display:flex;align-items:center;gap:2px;padding:6px 0;overflow-x:auto;white-space:nowrap;border-block:1px solid var(--bd)}
 .tb button{border:0;background:none;color:var(--mu);height:30px;min-width:30px;padding:0 8px;justify-content:center}
 .tb button:hover{color:var(--tx);background:var(--hv)}
 .tb .sep{width:1px;height:18px;background:var(--bd);margin:0 6px;flex:none}
-.tb .fmt{font:400 18px/1 var(--f-disp);width:30px;padding:0}
+.tb .fmt{font:500 15px/1 var(--f-body);width:30px;padding:0}
 .tb .fmt-b{font-weight:700;font-family:var(--f-body);font-size:14px}
-.tb .fmt-i{font-style:italic;font-size:20px}
+.tb .fmt-i{font-style:italic;font-family:Georgia,serif;font-size:16px}
 .tb .fmt-u{text-decoration:underline;text-underline-offset:3px;font-family:var(--f-body);font-size:14px}
 .tb .ins{color:var(--tx);border:1px solid var(--bd);margin-right:4px}
 .tb .hd2{font:600 13px/1 var(--f-body)}
@@ -202,7 +204,7 @@ label.dot input{position:absolute;inset:-6px;width:22px;height:22px;opacity:0;cu
 .crumb,.lbl{display:none}
 #side{position:absolute;inset:0 auto 0 0;z-index:5;width:84%;max-width:320px;transform:translateX(-100%);transition:transform .2s}
 #side.open{transform:none;box-shadow:var(--sh)}
-#ti{font-size:32px}.pg{padding:14px 16px 0}
+#ti{font-size:28px}.pg{padding:14px 16px 0}
 .seg button{padding:0 10px}
 }
 @media(prefers-reduced-motion:reduce){*{transition:none!important}}
@@ -213,17 +215,15 @@ label.dot input{position:absolute;inset:-6px;width:22px;height:22px;opacity:0;cu
 <div class="hubm">
 <p class="eyebrow" id="hd"></p>
 <h1 class="wel">Welcome, <em>Beckett</em></h1>
-<p class="lede">Your personal hub. Everything you build lives here, starting with school.</p>
+<p class="lede" id="hl"></p>
 <div class="spaces">
 <section class="tile">
-<span class="tl-k">Space</span>
 <h2>School</h2>
-<p>Class notes, linked concepts, and study boards.</p>
 <div id="hstats" class="stats"></div>
 <div id="hcls" class="clsrow"></div>
-<button id="enter" class="btn pri">Open School <i data-i="arrow"></i></button>
+<button id="enter" class="btn pri">Open notes <i data-i="arrow"></i></button>
 </section>
-<section class="tile"><h3>Recently edited</h3><div id="hrec"></div></section>
+<section class="tile"><h3>Recent</h3><div id="hrec"></div></section>
 </div>
 </div>
 </div>
@@ -325,7 +325,9 @@ let tt;const toast=m=>{const t=$('#toast');t.textContent=m;t.hidden=false;clearT
 
 /* ---------- Hub ---------- */
 function hub(){const d=new Date(),h=d.getHours();
-$('#hd').textContent=d.toLocaleDateString(undefined,{weekday:'long',month:'long',day:'numeric'})+' · '+(h<12?'Good morning':h<18?'Good afternoon':'Good evening');
+$('#hd').textContent=d.toLocaleDateString(undefined,{weekday:'long',month:'long',day:'numeric'});
+const last=S.notes.filter(n=>n.u).sort((a,b)=>b.u-a.u)[0]||cur();
+$('#hl').innerHTML=last&&last.title.trim()?`Last thing you worked on: <b>${esc(last.title)}</b> in ${esc(cname(last.cid))}.`:'Nothing written yet. Open School and start a note.';
 const links=S.notes.reduce((s,n)=>s+outs(n).length,0);
 $('#hstats').innerHTML=[[S.classes.length,S.classes.length==1?'class':'classes'],[S.notes.length,S.notes.length==1?'note':'notes'],[links,links==1?'link':'links']].map(([v,l])=>`<div><b>${v}</b><span>${l}</span></div>`).join('');
 $('#hcls').innerHTML=S.classes.map(c=>`<span class="chip"><i style="background:${c.color}"></i>${esc(c.name)}</span>`).join('');
@@ -377,7 +379,7 @@ const SL=[
 ['Heading','Section heading','## h2 heading','H2',()=>fb('h2')],
 ['Subheading','Smaller heading','### h3','H3',()=>fb('h3')],
 ['Bold','Make text bold','b bold','<b>B</b>',()=>ex('bold')],
-['Italic','Slanted text','i italic','<i style="font:italic 17px var(--f-disp)">I</i>',()=>ex('italic')],
+['Italic','Slanted text','i italic','<i style="font:italic 15px Georgia,serif">I</i>',()=>ex('italic')],
 ['Underline','Underline text','u underline','<u>U</u>',()=>ex('underline')],
 ['Strikethrough','Cross text out','s strike','<s>S</s>',()=>ex('strikeThrough')],
 ['Bullet list','Simple list','- bullet list',ic('list'),()=>ex('insertUnorderedList')],
